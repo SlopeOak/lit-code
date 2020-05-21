@@ -1,0 +1,15 @@
+# All java files match the google java style guide, enforced by the spotless plugin for gradle.
+# https://google.github.io/styleguide/javaguide.html
+[**.js]
+indent_size = 2
+indent_style = space
+max_line_length = 120
+charset = utf-8
+
+[**.md]
+max_line_length = 120
+charset = utf-8
+
+[**.json]
+indent_size = 2
+indent_style = space

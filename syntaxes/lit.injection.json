@@ -1,0 +1,15 @@
+{
+	"scopeName": "lit.injection",
+	"injectionSelector": "L:text.html.markdown",
+	"patterns": [
+		{
+			"include": "#test-keyword"
+		}
+	],
+	"repository": {
+		"test-keyword": {
+			"match": "Test",
+			"name": "keyword.test"
+		}
+	}
+}
