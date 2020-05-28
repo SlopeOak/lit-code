@@ -34,14 +34,27 @@
     ],
     "commands": [
       {
-        "command": "lit-code.addNewLines",
-        "title": "Lit-code: Add newlines"
-      },
-      {
         "command": "lit-code.splitChapters",
         "title": "Lit-code: Split chapters"
       }
-    ]
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "lit",
+          "title": "Package Explorer",
+          "icon": "media/dep.svg"
+        }
+      ]
+    },
+    "views": {
+      "lit": [
+        {
+          "id": "litErrors",
+          "name": "Lit-code Errors and Warnings"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "yarn run compile",

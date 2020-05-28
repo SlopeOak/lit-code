@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import { format } from './features/formatting/formatting';
 import { splitFile } from './features/splitChapters/split-chapters';
+import { LitCodeErrorProvider } from './features/errorsPanel/TreePanel';
 
 export function activate(context: vscode.ExtensionContext) {
 	let currentFile = vscode.window.activeTextEditor.document.fileName;
@@ -18,6 +19,11 @@ export function activate(context: vscode.ExtensionContext) {
 			return format(document);
 		}
 	});
+
+	vscode.window.registerTreeDataProvider(
+		'litErrors',
+		new LitCodeErrorProvider()
+	);
 }
 
 export function deactivate() { }
