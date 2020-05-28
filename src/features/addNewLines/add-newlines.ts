@@ -1,6 +1,7 @@
 const bulletPointRegex = /^[-*].*/;
 const headerRegex = /^#.*/;
 const paragraphRegex = /^[\w\s"']*/;
+const whitespaceLineRegex = /^\s*$/;
 
 export function addNewLines(line1: string, line2: string): boolean {
   if (line1 === undefined || line2 === undefined) { return false; }
@@ -9,6 +10,10 @@ export function addNewLines(line1: string, line2: string): boolean {
   let line2Trim = line2.trim();
 
   if (line1Trim.match(headerRegex)) {
+    return false;
+  }
+
+  if (line1Trim.match(whitespaceLineRegex) || line2Trim.match(whitespaceLineRegex)) {
     return false;
   }
 
