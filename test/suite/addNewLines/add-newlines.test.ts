@@ -21,4 +21,30 @@ describe('add-newlines', () => {
     expect(addNewLines('This is a test paragraph', 'This is another paragraph')).toBe(true);
   });
 
+  describe('with bullet points', () => {
+    it('should return false if line1 is a bulletpoint and line2 is a bulletpoint', () => {
+      let result = addNewLines('- This is a bulletpoint', '- This is also a bullet point');
+      expect(result).toBe(false);
+    });
+
+    it('should return true if line1 is a bulletpoint and line2 is not a bulletpoint', () => {
+      let result = addNewLines('- This is a bulletpoint', 'This is not a bullet point');
+      expect(result).toBe(true);
+    });
+
+    it('should return false if line1 is not a bullet point and line2 is a bulletpoint', () => {
+      let result = addNewLines('This is not a bulletpoint', '- This is a bullet point');
+      expect(result).toBe(false);
+    });
+
+    it('should return true if line1 is a bullet point with asterisks and line2 is a bulletpoint with asterisks', () => {
+      let result = addNewLines('* This is a bulletpoint', '* This is a bullet point');
+      expect(result).toBe(false);
+    });
+
+    it('should return true if line1 is a bullet point with asterisks and line2 is a not a bulletpoint', () => {
+      let result = addNewLines('* This is a bulletpoint', 'This is a bullet point');
+      expect(result).toBe(true);
+    });
+  });
 });

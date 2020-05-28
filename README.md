@@ -3,8 +3,8 @@ This project gives VSCode some features that make it easier to work with writing
 
 | Feature             | Description                                                                                |
 | ------------------- | ------------------------------------------------------------------------------------------ |
+| Document formatting | Formats the markdown file to make it more readable.                                        |
 | Syntax highlighting | Marks the text in a document according to narrative or speech.                             |
-| Add New Lines       | Adds spacing lines between paragraphs to make transitioning to a markdown document easier. |
 | Split chapters      | Separates the chapters into individual files.                                              |
 
 ## FAQ:
