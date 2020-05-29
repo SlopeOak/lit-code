@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import { format } from './features/formatting/formatting';
 import { splitFile } from './features/splitChapters/split-chapters';
-import { LitCodeErrorProvider } from './features/errorsPanel/TreePanel';
+import { subscribeToDocumentChanges } from './features/diagnostics/narration-diagnostics';
 
 export function activate(context: vscode.ExtensionContext) {
 	let currentFile = vscode.window.activeTextEditor.document.fileName;
@@ -20,10 +20,10 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	});
 
-	vscode.window.registerTreeDataProvider(
-		'litErrors',
-		new LitCodeErrorProvider()
-	);
+	const narrationDiagnostics = vscode.languages.createDiagnosticCollection("Lit-code: narration");
+	context.subscriptions.push(narrationDiagnostics);
+
+	subscribeToDocumentChanges(context, narrationDiagnostics);
 }
 
 export function deactivate() { }
