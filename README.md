@@ -1,11 +1,12 @@
 # Lit-Code
 This project gives VSCode some features that make it easier to work with writing fiction in markdown files. The goal of this extension is to provide some convenience features, to reduce the pain of using VSCode to write a novel.
 
-| Feature             | Description                                                                                |
-| ------------------- | ------------------------------------------------------------------------------------------ |
-| Document formatting | Formats the markdown file to make it more readable.                                        |
-| Syntax highlighting | Marks the text in a document according to narrative or speech.                             |
-| Split chapters      | Separates the chapters into individual files.                                              |
+| Feature               | Description                                                           |
+| --------------------- | --------------------------------------------------------------------- |
+| Write-good violations | Marks potential errors in a document based on the write-good library. |
+| Document formatting   | Formats the markdown file to make it more readable.                   |
+| Syntax highlighting   | Marks the text in a document according to narrative or speech.        |
+| Split chapters        | Separates the chapters into individual files.                         |
 
 ## FAQ:
 Q) Uh why don't you just um use like word or something to do that? Do you have to use --
