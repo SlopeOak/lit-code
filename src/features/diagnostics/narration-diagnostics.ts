@@ -35,26 +35,47 @@ function parseRuleToggles(lineOfText: vscode.TextLine): string[] {
 function checkLine(lineOfText: vscode.TextLine, lineIndex: number, disabledRules?: string[]): vscode.Diagnostic[] {
     let diagnostics = [];
 
-    let suggestions = writeGood(lineOfText.text);
-    if (suggestions) {
-        suggestions.forEach(suggestion => {
-            let index = suggestion.index;
-            let range = new vscode.Range(lineIndex, index, lineIndex, index + suggestion.offset);
+    let writeGoodEnabled = vscode.workspace.getConfiguration().get('litcode.linting.write-good.enabled');
+    let writeGoodSeverity = vscode.workspace.getConfiguration().get('litcode.linting.write-good.severity');
 
-            let category = suggestionCategory(suggestion);
-            let diagnostic = new vscode.Diagnostic(range, suggestion.reason, category.severity);
-            diagnostic.code = category.code;
+    if (writeGoodEnabled) {
+        let suggestions = writeGood(lineOfText.text);
+        if (suggestions) {
+            suggestions.forEach(suggestion => {
+                let index = suggestion.index;
+                let range = new vscode.Range(lineIndex, index, lineIndex, index + suggestion.offset);
 
-            if (!disabledRules || !disabledRules.includes(category.code)) {
-                diagnostics.push(diagnostic);
-            }
-        });
+                let category = suggestionCategory(suggestion);
+                let diagnostic;
+                diagnostic = new vscode.Diagnostic(range, suggestion.reason, mapErrorConfigToSeverity(writeGoodSeverity));
+                diagnostic.code = category.code;
+
+                if (!disabledRules || !disabledRules.includes(category.code)) {
+                    diagnostics.push(diagnostic);
+                }
+            });
+        }
     }
 
     return diagnostics;
 }
 
-function suggestionCategory(suggestion) {
+function mapErrorConfigToSeverity(config): vscode.DiagnosticSeverity {
+    switch (config) {
+        case 'error':
+            return vscode.DiagnosticSeverity.Error;
+        case 'warning':
+            return vscode.DiagnosticSeverity.Warning;
+        case 'info':
+            return vscode.DiagnosticSeverity.Information;
+        case 'hint':
+            return vscode.DiagnosticSeverity.Hint;
+        default:
+            return vscode.DiagnosticSeverity.Error;
+    }
+}
+
+function suggestionCategory(suggestion): { code: string, severity: vscode.DiagnosticSeverity } {
     const reason = suggestion.reason;
     if (reason.includes('passive')) {
         return { code: 'passiveVoice', severity: vscode.DiagnosticSeverity.Error };

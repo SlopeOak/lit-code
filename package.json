@@ -37,7 +37,30 @@
         "command": "lit-code.splitChapters",
         "title": "Lit-code: Split chapters"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Lit-code",
+      "properties": {
+        "litcode.linting.write-good": {
+          "description": "Write-good provides a bunch of suggestions, from passive voice to weasel words."
+        },
+        "litcode.linting.write-good.enabled": {
+          "description": "Turn on/off write-good checks",
+          "type": "boolean",
+          "default": true
+        },
+        "litcode.linting.write-good.severity": {
+          "description": "Change the severity level",
+          "type": "string",
+          "default": "error",
+          "enum": ["warning", "error"],
+          "enumDescriptions": [
+            "All violations caught by this rule will be shown as a warning.",
+            "All violations caught by this rule will be shown as an error."
+          ]
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "yarn run compile",
