@@ -1,5 +1,8 @@
 import * as vscode from 'vscode';
-import * as writeGood from 'write-good';
+import { WriteGoodDiagnostic } from './WriteGoodDiagnostic';
+import { ProseDiagnostic } from './ProseDiagnostic';
+
+const diagnosers: ProseDiagnostic[] = [ new WriteGoodDiagnostic()];
 
 export function refreshDiagnostics(doc: vscode.TextDocument, narrationDiagnostics: vscode.DiagnosticCollection): void {
     let diagnostics: vscode.Diagnostic[] = [];
@@ -32,57 +35,13 @@ function parseRuleToggles(lineOfText: vscode.TextLine): string[] {
     return disabledRules;
 }
 
-function checkLine(lineOfText: vscode.TextLine, lineIndex: number, disabledRules?: string[]): vscode.Diagnostic[] {
-    let diagnostics = [];
-
-    let writeGoodEnabled = vscode.workspace.getConfiguration().get('litcode.linting.write-good.enabled');
-    let writeGoodSeverity = vscode.workspace.getConfiguration().get('litcode.linting.write-good.severity');
-
-    if (writeGoodEnabled) {
-        let suggestions = writeGood(lineOfText.text);
-        if (suggestions) {
-            suggestions.forEach(suggestion => {
-                let index = suggestion.index;
-                let range = new vscode.Range(lineIndex, index, lineIndex, index + suggestion.offset);
-
-                let category = suggestionCategory(suggestion);
-                let diagnostic;
-                diagnostic = new vscode.Diagnostic(range, suggestion.reason, mapErrorConfigToSeverity(writeGoodSeverity));
-                diagnostic.code = category.code;
-
-                if (!disabledRules || !disabledRules.includes(category.code)) {
-                    diagnostics.push(diagnostic);
-                }
-            });
-        }
-    }
-
+function checkLine(lineOfText: vscode.TextLine, lineIndex: number, disabledRules?: string[]): vscode.Diagnostic[] {  
+    let diagnostics: vscode.Diagnostic[] = [];
+    diagnosers.forEach(diagnosticEngine => {
+        diagnostics = diagnostics.concat(diagnosticEngine.checkLine(lineOfText, lineIndex, disabledRules));
+    });
+    
     return diagnostics;
-}
-
-function mapErrorConfigToSeverity(config): vscode.DiagnosticSeverity {
-    switch (config) {
-        case 'error':
-            return vscode.DiagnosticSeverity.Error;
-        case 'warning':
-            return vscode.DiagnosticSeverity.Warning;
-        case 'info':
-            return vscode.DiagnosticSeverity.Information;
-        case 'hint':
-            return vscode.DiagnosticSeverity.Hint;
-        default:
-            return vscode.DiagnosticSeverity.Error;
-    }
-}
-
-function suggestionCategory(suggestion): { code: string, severity: vscode.DiagnosticSeverity } {
-    const reason = suggestion.reason;
-    if (reason.includes('passive')) {
-        return { code: 'passiveVoice', severity: vscode.DiagnosticSeverity.Error };
-    } else if (reason.includes('weasel')) {
-        return { code: 'weaselWords', severity: vscode.DiagnosticSeverity.Error };
-    }
-    return { code: undefined, severity: vscode.DiagnosticSeverity.Error };
 }
 
 export function subscribeToDocumentChanges(context: vscode.ExtensionContext, narrationDiagnostics: vscode.DiagnosticCollection): void {
