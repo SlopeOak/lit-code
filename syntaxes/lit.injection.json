@@ -1,15 +1,25 @@
 {
-	"scopeName": "lit.injection",
-	"injectionSelector": "L:text.html.markdown",
-	"patterns": [
-		{
-			"include": "#test-keyword"
-		}
-	],
-	"repository": {
-		"test-keyword": {
-			"match": "Test",
-			"name": "keyword.test"
-		}
-	}
+  "scopeName": "lit.injection",
+  "injectionSelector": "L:text.html.markdown",
+  "patterns": [
+    {
+      "include": "#dialog"
+    }
+  ],
+  "repository": {
+    "dialog": {
+      "name": "prose.dialog",
+      "match": "(\".*?\")|(“.*?”)"
+    },
+    "dialog-open": {
+      "match": "[\"“]"
+    },
+    "dialog-close": {
+      "match": "[\"”]"
+    },
+    "narration": {
+      "name": "prose.narration",
+      "match": ".*"
+    }
+  }
 }

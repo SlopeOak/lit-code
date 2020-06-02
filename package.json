@@ -53,14 +53,28 @@
           "description": "Change the severity level",
           "type": "string",
           "default": "error",
-          "enum": ["warning", "error"],
+          "enum": [
+            "warning",
+            "error"
+          ],
           "enumDescriptions": [
             "All violations caught by this rule will be shown as a warning.",
             "All violations caught by this rule will be shown as an error."
           ]
         }
       }
-    }
+    },
+    "colors": [
+      {
+        "id": "litcode.prose.dialog",
+        "description": "Color the dialog",
+        "defaults": {
+          "dark": "#CCCCCC",
+          "light": "#333333",
+          "highContrast": "#010203"
+        }
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "yarn run compile",
@@ -90,6 +104,7 @@
   },
   "dependencies": {
     "change-case": "^4.1.1",
+    "vscode-textmate": "^5.1.1",
     "write-good": "^1.0.2"
   }
 }
