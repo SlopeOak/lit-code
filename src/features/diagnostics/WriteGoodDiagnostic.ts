@@ -21,12 +21,11 @@ export class WriteGoodDiagnostic extends ProseDiagnostic {
                     let index = suggestion.index;
                     let range = new vscode.Range(lineIndex, index, lineIndex, index + suggestion.offset);
     
-                    let category = this.suggestionCategory(suggestion);
                     let diagnostic;
                     diagnostic = new vscode.Diagnostic(range, suggestion.reason, this.severity);
-                    diagnostic.code = category.code;
+                    diagnostic.code = 'writeGood';
     
-                    if (!disabledRules || !disabledRules.includes(category.code)) {
+                    if (!disabledRules || !disabledRules.includes(diagnostic.code)) {
                         diagnostics.push(diagnostic);
                     }
                 });
@@ -34,15 +33,5 @@ export class WriteGoodDiagnostic extends ProseDiagnostic {
         }
     
         return diagnostics;
-    }
-
-    suggestionCategory(suggestion): { code: string } {
-        const reason = suggestion.reason;
-        if (reason.includes('passive')) {
-            return { code: 'passiveVoice' };
-        } else if (reason.includes('weasel')) {
-            return { code: 'weaselWords' };
-        }
-        return { code: undefined };
     }
 }
