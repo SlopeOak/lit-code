@@ -3,7 +3,7 @@ This project gives VSCode some features that make it easier to work with writing
 
 | Feature               | Description                                                           |
 | --------------------- | --------------------------------------------------------------------- |
-| Write-good violations | Marks potential errors in a document based on the write-good library. |
+| Error checking        | Marks potential errors in a document based on the write-good library. |
 | Document formatting   | Formats the markdown file to make it more readable.                   |
 | Syntax highlighting   | Marks the text in a document according to narrative or speech.        |
 | Split chapters        | Separates the chapters into individual files.                         |
