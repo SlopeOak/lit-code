@@ -23,7 +23,11 @@ export class DiagnosticError {
         let startPos = new vscode.Position(lineNumber, diagnosticError.index);
         let endPos = new vscode.Position(lineNumber, diagnosticError.offset);
         let range = new vscode.Range(startPos, endPos);
-        return new vscode.Diagnostic(range, diagnosticError.suggestion, this.severity);
+        
+        const diagnostic = new vscode.Diagnostic(range, diagnosticError.suggestion, this.severity);
+        diagnostic.code = this.rule;
+
+        return diagnostic;
     }
 
     private mapErrorConfigToSeverity(severity: string): vscode.DiagnosticSeverity {
