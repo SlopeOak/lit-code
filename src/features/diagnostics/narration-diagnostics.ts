@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { WriteGoodDiagnostic } from './WriteGoodDiagnostic';
 import { ProseDiagnostic } from './ProseDiagnostic';
+import { WordsToDeleteDiagnostics } from './WordsToDeleteDiagnostics';
 
 export function refreshDiagnostics(doc: vscode.TextDocument, narrationDiagnostics: vscode.DiagnosticCollection): void {
     let diagnostics: vscode.Diagnostic[] = [];
@@ -34,7 +35,10 @@ function parseRuleToggles(lineOfText: vscode.TextLine): string[] {
 }
 
 function checkLine(lineOfText: vscode.TextLine, lineIndex: number, disabledRules?: string[]): vscode.Diagnostic[] {  
-    const diagnosers: ProseDiagnostic[] = [ new WriteGoodDiagnostic() ];
+    const diagnosers: ProseDiagnostic[] = [ 
+        new WriteGoodDiagnostic(),
+        new WordsToDeleteDiagnostics()
+     ];
     let diagnostics: vscode.Diagnostic[] = [];
     diagnosers.forEach(diagnosticEngine => {
         diagnostics = diagnostics.concat(diagnosticEngine.checkLine(lineOfText, lineIndex, disabledRules));

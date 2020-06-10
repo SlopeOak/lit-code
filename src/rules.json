@@ -1,0 +1,7 @@
+[
+  {
+    "match": "\bthat\b",
+    "description": "is often unnecessary, check if the sentence makes sense after removing it",
+    "severity": "warn"
+  }
+]
