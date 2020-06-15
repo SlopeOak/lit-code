@@ -1,8 +1,0 @@
-[
-  {
-    "match": "then",
-    "description": "When showing a sequence of events, either remove “then” or try using “and” instead of “then.” Using “then” frequently sounds repetitive and even juvenile.",
-    "severity": "error",
-    "code": "wordsToDelete"
-  }
-]

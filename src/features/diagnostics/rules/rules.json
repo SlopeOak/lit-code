@@ -1,0 +1,59 @@
+{
+  "wordsToDelete": [
+    {
+      "match": "really|very",
+      "description": "These are useless modifiers. You should be able to find stronger verbs or adjectives for whatever you’re trying to enhance. For example, “He ran very quickly along the really long field.” can be, “He sprinted across the vast field.”",
+      "severity": "error"
+    },
+    {
+      "match": "that",
+      "description": "If a sentence still makes sense after removing “that,” delete it. For example, “This is the most amazing blog post that I’ve ever read.” can be, “This is the most amazing blog post I’ve ever read.”",
+      "severity": "warning"
+    },
+    {
+      "match": "just",
+      "description": "I have a hard time removing “just,” especially in dialogue. But for the most part, you don’t need it, and too many can make your dialogue or prose repetitive.",
+      "severity": "warning"
+    },
+    {
+      "match": "then",
+      "description": "When showing a sequence of events, either remove “then” or try using “and” instead of “then.” Using “then” frequently sounds repetitive and even juvenile. “I shut the car door, then tripped over the sidewalk. Then Bob pointed and laughed, and then my cheeks flushed.” sounds better as, “I shut the car door and tripped over the sidewalk. My cheeks flushed as Bob pointed and laughed.”",
+      "severity": "warning"
+    },
+    {
+      "match": "totally|completely|absolutely|literally",
+      "description": "These words don’t add information to a sentence. For example, “The box was completely full of clothes.” reads the same as, “The box was full of clothes.” or better yet, “The box was stuffed with clothes.”",
+      "severity": "error"
+    },
+    {
+      "match": "definitely|certainly|probably|actually|basically|virtually",
+      "description": "these words don’t add information. If the sentence makes sense without these words, remove them.",
+      "severity": "error"
+    },
+    {
+      "match": "start|begin|began|begun",
+      "description": "These words are unnecessary unless an interruption to the action soon occurs. But for the most part, you can remove these words.",
+      "severity": "error"
+    },
+    {
+      "match": "rather|quite|somewhat|somehow",
+      "description": "A movie doesn’t have to be “rather dull,” it can just be “dull.” Delete!",
+      "severity": "error"
+    },
+    {
+      "match": "down|up",
+      "description": "Usually, these words are unnecessary and you can remove them. For example, “I sat down on the floor.” could be, “I sat on the floor.” and “I stood up.” could be, “I stood.”",
+      "severity": "warning"
+    },
+    {
+      "match": "wonder|ponder|think|thought|feel|felt|understand|realize",
+      "description": "When you add any of these terms, you’re removing readers from the introspection and adding useless words. For example, “I wondered whether Johnny was the murderer.” could be, “Was Johnny the murderer?” If the narrator questions, “Was Johnny the murderer?” it’s self-explanatory that the narrator is wondering it. This also helps readers feel closer to your narrator, and more involved in the speculation.",
+      "severity": "error"
+    },
+    {
+      "match": "breath|breathe|inhale|exhale",
+      "description": "Instead of deleting, you’ll have to find an alternative way to describe how a character is reacting to whatever has made them breathe quickly, exhale sharply, or “Let out a breath I didn’t know I was holding.” Ick! I highly recommend The Emotion Thesaurus in paperback, not digital, so you can skim through any time.",
+      "severity": "error"
+    }
+  ]
+}

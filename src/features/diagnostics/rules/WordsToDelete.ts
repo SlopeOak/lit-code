@@ -1,6 +1,8 @@
 import * as vscode from 'vscode';
 import { DiagnosticError } from './DiagnosticError';
 import * as fs from 'fs';
+import * as path from 'path';
+import * as rulesJson from './rules.json';
 
 class Rule {
     rule: string;
@@ -17,11 +19,11 @@ class Rule {
 
     findProblems(text: string): DiagnosticError[] {
         let problems = [];
-        let regexp = new RegExp(`${this.rule}`, 'gmi');
+        let regexp = new RegExp(`\\b${this.rule}\\b`, 'gmi');
         let match;
         while ((match = regexp.exec(text))) {
             let index = match.index;
-            let offset = match.index + match[0].length;           
+            let offset = match.index + match[0].length;
             problems.push(new DiagnosticError(index, offset, `"${match[0]}" ${this.suggestion}`, this.code, this.severity));
         }
         return problems;
@@ -58,14 +60,17 @@ class DeleteThat extends WordsToDeleteRule {
 
 function parseRules(): Rule[] {
     let rules = [];
-    fs.readFile('./rules.json', 'utf8', (err, data) => {
-        if (err) {
-            throw err;
-        }
-        var rulesMap = JSON.parse(data);
-        rulesMap.forEach(entry => {
-            rules.push(new Rule(entry.match, entry.description, entry.severity, entry.code));
+    let jsonRules = JSON.parse(fs.readFileSync(path.join(__dirname, 'rules.json'), 'utf8'));
+
+    for (var key in jsonRules) {
+        jsonRules[key].forEach(rule => {
+            rules.push(createRule(rule, key));
         });
-    });
+    }
+
     return rules;
+}
+
+function createRule(jsonRule: { match: string, description: string, severity: string }, code: string): Rule {
+    return new Rule(jsonRule.match, jsonRule.description, jsonRule.severity, code);
 }
