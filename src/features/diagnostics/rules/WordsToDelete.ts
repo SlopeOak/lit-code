@@ -63,7 +63,7 @@ function parseRules(): Rule[] {
     let jsonRules = JSON.parse(fs.readFileSync(path.join(__dirname, 'rules.json'), 'utf8'));
 
     for (var key in jsonRules) {
-        jsonRules[key].forEach(rule => {
+        jsonRules[key].rules.forEach(rule => {
             rules.push(createRule(rule, key));
         });
     }
