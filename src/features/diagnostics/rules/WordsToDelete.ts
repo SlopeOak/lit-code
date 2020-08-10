@@ -17,7 +17,7 @@ class Rule {
         this.code = code;
     }
 
-    findProblems(text: string): DiagnosticError[] {
+    async findProblems(text: string): Promise<DiagnosticError[]> {
         let problems = [];
         let regexp = new RegExp(`\\b${this.rule}\\b`, 'gmi');
         let match;
@@ -31,36 +31,56 @@ class Rule {
 }
 
 export class WordsToDelete {
-    rules = [
-        new DeleteThat()
-    ].concat(parseRules());
-
-    findProblems(text: string): DiagnosticError[] {
-        let errors = [];
-        this.rules.forEach(rule => {
-            errors = errors.concat(rule.findProblems(text));
+    async findProblems(text: string): Promise<DiagnosticError[]> {
+        return new Promise<DiagnosticError[]>(res => {
+            
+            this.getRulesFromExtension().then((resolve) => {
+                let errors = [];
+                resolve.forEach(rule => {
+                    rule.findProblems(text).then(problems => {
+                        errors = errors.concat(problems);
+                    });
+                });
+                res(errors);
+            });
+    
+            // this.getRulesFromLocalConfig().then((resolve) => {
+            //     resolve.forEach(async rule => {
+            //         rule.findProblems(text).then(problems => {
+            //             errors = errors.concat(problems);
+            //         });
+            //     });
+            //     res(errors);
+            // });
         });
-        return errors;
+    }
+
+    async getRulesFromExtension(): Promise<Rule[]> {
+        return parseRules(path.join(__dirname, 'rules.json'));
+    }
+
+    async getRulesFromLocalConfig(): Promise<Rule[]> {
+        const userRuleFile = vscode.workspace.findFiles('**/lit-code/rules.json');
+        let rules = [];
+        userRuleFile.then(uris => {
+            uris.forEach(uri => rules.concat(parseRules(uri)));
+        });
+
+        return rules;
     }
 }
 
-abstract class WordsToDeleteRule extends Rule {
-    constructor(rule: string, suggestion: string, severity: string | vscode.DiagnosticSeverity) {
-        super(rule, suggestion, severity, 'wordsToDelete');
-    }
-}
-
-class DeleteThat extends WordsToDeleteRule {
-    constructor() {
-        let rule = 'that';
-        let suggestion = 'is often unnecessary, check if the sentence makes sense after removing it.';
-        super(rule, suggestion, vscode.DiagnosticSeverity.Warning);
-    }
-}
-
-function parseRules(): Rule[] {
+async function parseRules(filePath: string | vscode.Uri): Promise<Rule[]> {
     let rules = [];
-    let jsonRules = JSON.parse(fs.readFileSync(path.join(__dirname, 'rules.json'), 'utf8'));
+
+    let path;
+    if (typeof filePath === 'string') {
+        path = filePath;
+    } else {
+        path = filePath.path;
+    }
+
+    let jsonRules = JSON.parse(fs.readFileSync(path, 'utf8'));
 
     for (var key in jsonRules) {
         jsonRules[key].rules.forEach(rule => {

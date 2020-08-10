@@ -15,8 +15,10 @@ export class WordsToDeleteDiagnostics extends ProseDiagnostic {
     checkLine(lineOfText: vscode.TextLine, lineIndex: number, disabledRules?: string[]): vscode.Diagnostic[] {
         let diagnosticErrors = new WordsToDelete().findProblems(lineOfText.text);
         let diagnostic = [];
-        diagnosticErrors.forEach(d => {
-            diagnostic.push(d.toDiagnostic(d, lineIndex));
+        diagnosticErrors.then((resolve) => {
+            resolve.forEach(d => {
+                diagnostic.push(d.toDiagnostic(d, lineIndex));
+            });
         });
         return diagnostic;
     }
